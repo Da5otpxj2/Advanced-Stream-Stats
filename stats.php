@@ -34,7 +34,7 @@ if (isset($_SESSION["username"])) {
 		<div class="page-content">
 
             <h2 style="text-align:center">Subscription Plans</h2>
-            <p style="text-align:center">Subscribe to plans for more detailed stats.</p>
+            <p style="text-align:center">Subscribe to our plan for more detailed stats.</p>
 
             <div class="columns">
             <ul class="price">
@@ -42,7 +42,7 @@ if (isset($_SESSION["username"])) {
                 <li class="grey">$ 1.00 / onetime</li>
                 <li>Get access for all stats</li>
                 <li>One time access</li>
-                <li class="grey"><a href="#" class="button">Sign Up</a></li>
+                <li class="grey"><a href="payment.php" class="button">Sign Up</a></li>
             </ul>
             </div>
 
@@ -52,7 +52,7 @@ if (isset($_SESSION["username"])) {
                 <li class="grey">$ 12.99 / month</li>
                 <li>Get access for all stats</li>
                 <li>Unlimited Access</li>
-                <li class="grey"><a href="#" class="button">Sign Up</a></li>
+                <li class="grey"><a href="payment.php" class="button">Sign Up</a></li>
             </ul>
             </div>
 
@@ -62,7 +62,7 @@ if (isset($_SESSION["username"])) {
                 <li class="grey">$ 49.99 / year</li>
                 <li>Get access for all stats</li>
                 <li>Unlimited Access</li>
-                <li class="grey"><a href="#" class="button">Sign Up</a></li>
+                <li class="grey"><a href="payment.php" class="button">Sign Up</a></li>
             </ul>
             </div>
         </div>
