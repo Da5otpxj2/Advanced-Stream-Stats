@@ -26,7 +26,10 @@ if (isset($_SESSION["username"])) {
     <div class="main-signup-heading"><h2>Advanced Stream Stats</h2></div>
 	<div class="phppot-container">
 		<div class="page-header">
-			<span class="login-signup"><a href="logout.php">Logout</a></span>
+            <span class="login-signup"><a href="logout.php">Logout</a></span>
+            <span class="login-signup"><a href="stats.php">View Stats</a></span>
+			<span class="login-signup"><a href="subscription.php">Manage Subscription</a></span>
+            <span class="login-signup"><a href="home.php">Home</a></span>
 		</div>
 		<div class="page-content">Welcome <?php echo $username;?></div>
 	</div>
