@@ -42,6 +42,24 @@ class Subscription
           
     }
 
+    /**
+     * deleteSubscription
+     *
+     * @param string 
+     * @return string
+     */
+    public function deleteSubscription($user_id)
+    {   
+        
+        $query = 'DELETE FROM tbl_subscription WHERE user_id = ?';
+        $paramType = 's';
+        $paramValue = array(
+            $user_id
+        );
+        $this->ds->execute($query, $paramType, $paramValue);
+          
+    }
+
 }
 
 

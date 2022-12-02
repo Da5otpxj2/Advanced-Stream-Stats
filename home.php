@@ -25,9 +25,10 @@ if (isset($_SESSION["username"])) {
 		<div class="page-header">
             <span class="login-signup"><a href="logout.php">Logout</a></span>
             <span class="login-signup"><a href="stats.php">View Stats</a></span>
+            <span class="login-signup"><a href="manageSubscription.php">Manage Subscription</a></span>
             <span class="login-signup"><a href="home.php">Home</a></span>
 		</div>
-		<div class="page-content">Welcome <?php echo $username;?></div>
+		<div class="page-content" style="text-align: left;font-size: 28px;">Welcome <?php echo $username;?></div>
 	</div>
 </BODY>
 </HTML>

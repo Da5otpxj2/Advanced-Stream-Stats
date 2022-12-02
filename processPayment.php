@@ -31,7 +31,6 @@
         try{
             require_once 'lib/Braintree/lib/Braintree.php';
 
-            // or like this:
             $config = new Braintree\Configuration([
                 'environment' => 'sandbox',
                 'merchantId' => 'dck5trc2pyxg8wky',
@@ -107,19 +106,19 @@
 
                 if ($result->success)
                 {
-                    if($result->subscription->transaction->id)
+                    if($result->subscription->transactions[0]->id)
                     {
-                        $transactionId=$result->subscription->transaction->id;
+                        $transactionId=$result->subscription->transactions[0]->id;
                         $subscriptionId=$result->subscription->id;
                         require_once __DIR__ . '/Model/Order.php';
                         $order = new Order();
                         $response = $order->updateOrder($subscription_type, $user_id, $price, $subscriptionId, $transactionId);
                     }
                 }
-                else if($result->transaction) {
+                else if($result->subscription->transactions[0]) {
                     $msg =  "Error processing transaction:";
-                    $msg .= "\n  code: " . $result->transaction->processorResponseCode;
-                    $msg .= "\n  text: " . $result->transaction->processorResponseText;
+                    $msg .= "\n  code: " . $result->subscription->transactions[0]->processorResponseCode;
+                    $msg .= "\n  text: " . $result->subscription->transactions[0]->processorResponseText;
 
                     $response = '{"OrderStatus": [{"status":"0", "orderID":"0", "message" : "'.$msg.'"}]}';
 
@@ -140,19 +139,19 @@
 
                 if ($result->success)
                 {
-                    if($result->subscription->transaction->id)
+                    if($result->subscription->transactions[0]->id)
                     {
-                        $transactionId=$result->subscription->transaction->id;
+                        $transactionId=$result->subscription->transactions[0]->id;
                         $subscriptionId=$result->subscription->id;
                         require_once __DIR__ . '/Model/Order.php';
                         $order = new Order();
                         $response = $order->updateOrder($subscription_type, $user_id, $price, $subscriptionId, $transactionId);
                     }
                 }
-                else if($result->transaction) {
+                else if($result->subscription->transactions[0]) {
                     $msg =  "Error processing transaction:";
-                    $msg .= "\n  code: " . $result->transaction->processorResponseCode;
-                    $msg .= "\n  text: " . $result->transaction->processorResponseText;
+                    $msg .= "\n  code: " . $result->subscription->transactions[0]->processorResponseCode;
+                    $msg .= "\n  text: " . $result->subscription->transactions[0]->processorResponseText;
 
                     $response = '{"OrderStatus": [{"status":"0", "orderID":"0", "message" : "'.$msg.'"}]}';
 

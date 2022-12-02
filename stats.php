@@ -31,6 +31,7 @@ $subscriptionInfo = $subscription->getMemberSubscription($user_id);
 		<div class="page-header">
             <span class="login-signup"><a href="logout.php">Logout</a></span>
             <span class="login-signup"><a href="stats.php">View Stats</a></span>
+            <span class="login-signup"><a href="manageSubscription.php">Manage Subscription</a></span>
             <span class="login-signup"><a href="home.php">Home</a></span>
 		</div>
 		<div class="page-content">
@@ -44,7 +45,22 @@ $subscriptionInfo = $subscription->getMemberSubscription($user_id);
                 if($subscriptionInfo[0]['status'] == 1){ 
                     if($subscriptionInfo[0]['product_id'] == 1){
                         if((strtotime($currentTime) - strtotime($subscriptionInfo[0]['created'])) > 86400){
-                            $subscriptionInfo = $subscription->updateSubscription($user_id, 0);
+                            $subscription->updateSubscription($user_id, 0);
+                            $subscriptionExpired = true;
+                        }
+                    }else{
+
+                        require_once 'lib/Braintree/lib/Braintree.php';
+                        $config = new Braintree\Configuration([
+                            'environment' => 'sandbox',
+                            'merchantId' => 'dck5trc2pyxg8wky',
+                            'publicKey' => 'bp2y5xjz75kpmqzx',
+                            'privateKey' => '333773333e7a5eabe86c22fadc64994d'
+                        ]);
+                        $gateway = new Braintree\Gateway($config);
+                        $subscriptionResult = $gateway->subscription()->find($subscriptionInfo[0]['subscriptionId']);
+                        if(isset($subscriptionResult->status) && $subscriptionResult->status !== 'Active'){
+                            $subscription->updateSubscription($user_id, 0);
                             $subscriptionExpired = true;
                         }
                     }
@@ -85,12 +101,10 @@ $subscriptionInfo = $subscription->getMemberSubscription($user_id);
                             <li class="grey"><a href="payment.php?type=3" class="button">Sign Up</a></li>
                         </ul>
                         </div>
-                <?php  }else{ ?>
-                        <h2 style="text-align:center">Your <?php if($subscriptionInfo[0]['product_id'] == 2){ echo "monthly"; }elseif($subscriptionInfo[0]['product_id'] == 3){ echo "yearly"; } ?> subscription has been expired.</h2>
-
-                        <a href="renewSubscription.php" class="button">Renew</a>
-                        <a href="cancelSubscription.php" class="button" style="background-color: red;">Cancel Subscription</a>
-                <?php  } 
+                <?php  }else{ 
+                        $url = "./manageSubscription.php";
+                        header("Location: $url");
+                 } 
                 }else{ ?>
                         <h2 style="text-align:center">Your detailed stats are here.</h2>
                         <p style="text-align: left;">                     

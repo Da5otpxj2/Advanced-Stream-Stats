@@ -4,7 +4,7 @@
 	font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
 	font-size: .9em;
 	color: #1e2a28;
-	width: 740px;
+	width: 95%;
 	margin: 0 auto;
 	padding: 0px 20px 20px 20px;
 	margin-top: 15px;
@@ -58,17 +58,16 @@ input[type=text].phppot-input, .phppot-container input,
 
 .phppot-container button, .phppot-container input[type=submit] {
 	padding: 8px 0px;
-	font-size: 1em;
 	cursor: pointer;
 	border-radius: 3px;
-	color: #565656;
-	font-weight: bold;
-	background-color: #ffc72c;
-	border-color: #ffd98e #ffbe3d #de9300;
+	color: #fff;
+	background-color: #3d1616;
+	border-color: #3d1616;
+	font-size: 13px;
 }
 
 .phppot-container button, .phppot-container input[type=submit]:hover {
-	background-color: #f7c027;
+	background-color: #493a3a;
 }
 
 .phppot-container button:focus {
@@ -202,6 +201,7 @@ input[type=text].phppot-input, .phppot-container input,
 	text-align: center;
 	text-decoration: none;
 	font-size: 18px;
+	cursor: pointer;
   }
   
 @media only screen and (max-width: 600px) {

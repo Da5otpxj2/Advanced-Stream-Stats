@@ -43,7 +43,7 @@ if (isset($_SESSION["username"])) {
 		<div class="page-header">
             <span class="login-signup"><a href="logout.php">Logout</a></span>
             <span class="login-signup"><a href="stats.php">View Stats</a></span>
-			<span class="login-signup"><a href="subscription.php">Manage Subscription</a></span>
+			<span class="login-signup"><a href="manageSubscription.php">Manage Subscription</a></span>
             <span class="login-signup"><a href="home.php">Home</a></span>
 		</div>
 		<div class="page-content">
@@ -204,7 +204,7 @@ jQuery(document).ready(function($){
                     $("#paymentForm").slideUp("slow");  
                     if(data.status == '1')
                     {
-                        HTML="Order <span>#"+data.orderID+"</span> has been created successfully.<br>Your subscription has been Activated, Click the stats menu to view now. Thank you!."; 
+                        HTML="Order <span>#"+data.orderID+"</span> your subscription has been Activated,<br>Click the stats menu to view detailed information. Thank you!."; 
                     }
                     else if(data.status == '0')
                     {
