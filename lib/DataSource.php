@@ -138,6 +138,7 @@ class DataSource
      */
     public function execute($query, $paramType = "", $paramArray = array())
     {
+        
         $stmt = $this->conn->prepare($query);
 
         if (! empty($paramType) && ! empty($paramArray)) {

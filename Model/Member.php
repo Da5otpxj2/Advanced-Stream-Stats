@@ -119,6 +119,17 @@ class Member
         return $memberRecord;
     }
 
+    public function getMemberById($user_id)
+    {
+        $query = 'SELECT * FROM tbl_member where id = ?';
+        $paramType = 's';
+        $paramValue = array(
+            $user_id
+        );
+        $memberRecord = $this->ds->select($query, $paramType, $paramValue);
+        return $memberRecord;
+    }
+
     /**
      * to login a user
      *
@@ -145,6 +156,8 @@ class Member
             // the session
             session_start();
             $_SESSION["username"] = $memberRecord[0]["username"];
+            $_SESSION["user_id"] = $memberRecord[0]["id"];
+            $_SESSION["email"] = $memberRecord[0]["email"];
             session_write_close();
             $url = "./home.php";
             header("Location: $url");
@@ -153,4 +166,24 @@ class Member
             return $loginStatus;
         }
     }
+
+    /**
+     * updateMemberPaymentToken
+     *
+     * @param string 
+     * @return string
+     */
+    public function updateMemberPaymentToken($user_id, $token)
+    {   
+        
+        $query = 'UPDATE tbl_member set paymentMethodToken = ? WHERE id = ?';
+        $paramType = 'ss';
+        $paramValue = array(
+            $token,
+            $user_id
+        );
+
+        $this->ds->execute($query, $paramType, $paramValue); 
+    }
+
 }

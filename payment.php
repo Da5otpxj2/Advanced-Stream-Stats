@@ -1,12 +1,21 @@
 <?php
+
 session_start();
 if (isset($_SESSION["username"])) {
-    $username = $_SESSION["username"];
+    $subscriptionList = array(1, 2, 3);
+    if(isset($_GET['type']) && !empty($_GET['type'])){
+        if(in_array($_GET['type'], $subscriptionList)){
+            $_SESSION["subscription_type"] = $_GET['type'];
+        }else{
+            $url = "./stats.php";
+            header("Location: $url");
+        }
+    }else{
+        $url = "./stats.php";
+        header("Location: $url");
+    }
     session_write_close();
 } else {
-    // since the username is not set in session, the user is not-logged-in
-    // he is trying to access this page unauthorized
-    // so let's clear all session variables and redirect him to index
     session_unset();
     session_write_close();
     $url = "./index.php";
@@ -71,7 +80,7 @@ if (isset($_SESSION["username"])) {
                 </ul>
             </form>
             <div id="orderInfo"></div>
-            <div id="demoCards" style="display:none;">
+            <div id="demoCards" style="display:block;">
                 <h4>Try these demo numbers</h4>
                 <ul id="cards">
                 <li>5105105105105100</li>
@@ -105,128 +114,111 @@ if (isset($_SESSION["username"])) {
     /* Credit Card Type Check */
 function cardValidate()
 {
-$('#card_number').validateCreditCard(function(result) 
-{
-var N=$(this).val();
-var C=$(this).attr("class");
-$(this).attr("class","");
-if(result && N.length>0 && result.card_type !== null)
-{
-    $(this).addClass(result.card_type.name);
-    if(result.valid && result.length_valid && result.luhn_valid)
+    $('#card_number').validateCreditCard(function(result) 
     {
-    $(this).addClass('valid');  
-    $(this).attr("rel","1");
-    }
-    else
-    {
-    $(this).attr("rel","0");  
-    }
-}
-else
-{
-$(this).removeClass(C);
-}
-});
-}
-
-jQuery(document).ready(function($) 
-{
-
-/* Button Enable*/
-$("#paymentForm input[type=text]").on("keyup",function()
-{
-
-cardValidate();
-var cardValid=$("#card_number").attr('rel');
-var C=$("#card_name").val();
-var M=$("#expiry_month").val();
-var Y=$("#expiry_year").val();
-var CVV=$("#cvv").val();
-var expName =/^[a-z ,.'-]+$/i;
-var expMonth = /^01|02|03|04|05|06|07|08|09|10|11|12$/;
-var expYear = /^16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31$/;
-var expCVV=/^[0-9]{3,3}$/;
-var cardCheck=$('#card_number').attr("rel");
-
-console.log('cardValid', cardValid);
-console.log('expName', expName.test(C));
-console.log('expMonth', expMonth.test(M));
-console.log('expYear', expYear.test(Y));
-console.log('expCVV', expCVV.test(CVV));
-console.log('cardCheck', parseInt(cardCheck)>0);
-
-
-if(cardValid>0 && expName.test(C) && expMonth.test(M) && expYear.test(Y) && expCVV.test(CVV) && parseInt(cardCheck)>0)
-{ 
-$('#paymentButton').prop('disabled', false);   
-$('#paymentButton').removeClass('disable');
-}
-else
-{
-$('#paymentButton').prop('disabled', true);  
-$('#paymentButton').addClass('disable'); 
+        var N=$(this).val();
+        var C=$(this).attr("class");
+        $(this).attr("class","");
+        if(result && N.length>0 && result.card_type !== null)
+        {
+            $(this).addClass(result.card_type.name);
+            if(result.valid && result.length_valid && result.luhn_valid)
+            {
+            $(this).addClass('valid');  
+            $(this).attr("rel","1");
+            }
+            else
+            {
+            $(this).attr("rel","0");  
+            }
+        }
+        else
+        {
+            $(this).removeClass(C);
+        }
+    });
 }
 
-});
+jQuery(document).ready(function($){
 
-/* Card Click */
-$("#cards li").on('click',function(){
-    var x=$.trim($(this).html());
-    $("#card_number").val(x);
-    cardValidate();
-})
+    /* Button Enable*/
+    $("#paymentForm input[type=text]").on("keyup",function(){
 
-/*Payment Form */
-$("#paymentForm").on('submit',function() 
-{
-var datastring = $(this).serialize();
-$.ajax({
-type: "POST",
-url: "cardProcess.php",
-data: datastring,
-dataType: "json",
-beforeSend: function()
-{  
-$("#paymentButton").val('Processing..');
-},
-success: function(data) 
-{
+        cardValidate();
+        var cardValid=$("#card_number").attr('rel');
+        var C=$("#card_name").val();
+        var M=$("#expiry_month").val();
+        var Y=$("#expiry_year").val();
+        var CVV=$("#cvv").val();
+        var expName =/^[a-z ,.'-]+$/i;
+        var expMonth = /^01|02|03|04|05|06|07|08|09|10|11|12$/;
+        var expYear = /^16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31$/;
+        var expCVV=/^[0-9]{3,3}$/;
+        var cardCheck=$('#card_number').attr("rel");
 
-$.each(data.OrderStatus, function(i,data)
-{
-var HTML;
-if(data)
-{
- $("#paymentGrid").slideUp("slow");  
- $("#orderInfo").fadeIn("slow");
-
-if(data.status == '1')
-{
-HTML="Order <span>#12345</span> has been created successfully."; 
-}
-else if(data.status == '2')
-{
-HTML="Transaction has been failed, please use other card."; 
-}
-else
-{
-HTML="Card number is not valid, please use other card."; 
-}
-
-$("#orderInfo").html(HTML);
-}
+        console.log('cardValid', cardValid);
+        console.log('expName', expName.test(C));
+        console.log('expMonth', expMonth.test(M));
+        console.log('expYear', expYear.test(Y));
+        console.log('expCVV', expCVV.test(CVV));
+        console.log('cardCheck', parseInt(cardCheck)>0);
 
 
-});
+        if(cardValid>0 && expName.test(C) && expMonth.test(M) && expYear.test(Y) && expCVV.test(CVV) && parseInt(cardCheck)>0)
+        { 
+            $('#paymentButton').prop('disabled', false);   
+            $('#paymentButton').removeClass('disable');
+        }
+        else
+        {
+            $('#paymentButton').prop('disabled', true);  
+            $('#paymentButton').addClass('disable'); 
+        }
+    });
 
+    /* Card Click */
+    $("#cards li").on('click',function(){
+        var x=$.trim($(this).html());
+        $("#card_number").val(x);
+        cardValidate();
+    })
 
-},
-error: function(){ alert('error handing here'); }
-});
-return false;
-
-});
+    /*Payment Form */
+    $("#paymentForm").on('submit',function(){
+        var datastring = $(this).serialize();
+        $.ajax({
+            type: "POST",
+            url: "processPayment.php",
+            data: datastring,
+            dataType: "json",
+            beforeSend: function()
+            {  
+            $("#paymentButton").val('Processing..');
+            },
+            success: function(data) 
+            {
+                $.each(data.OrderStatus, function(i,data){
+                    var HTML;
+                    if(data)
+                    {
+                    $("#paymentForm").slideUp("slow");  
+                    if(data.status == '1')
+                    {
+                        HTML="Order <span>#"+data.orderID+"</span> has been created successfully.<br>Your subscription has been Activated, Click the stats menu to view now. Thank you!."; 
+                    }
+                    else if(data.status == '0')
+                    {
+                        HTML="Transaction has been failed. "+data.msg; 
+                    }
+                    $("#orderInfo").show("slow");
+                    $("#orderInfo").html(HTML);
+                    }
+                });
+            },
+            error: function(){ alert('error handing here'); }
+        });
+        return false;
+    });
 
 });
 
