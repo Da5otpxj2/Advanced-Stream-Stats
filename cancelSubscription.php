@@ -36,6 +36,9 @@ try{
                     $response = '{"status": 0,"msg":"'.$msg.'"}';
                 }
             
+            }else{
+                $subscription->deleteSubscription($user_id);
+                $response = '{"status": 1}';
             }
         }
     

@@ -80,7 +80,7 @@ if (isset($_SESSION["username"])) {
                 </ul>
             </form>
             <div id="orderInfo"></div>
-            <div id="demoCards" style="display:block;">
+            <div id="demoCards" style="display:none;">
                 <h4>Try these demo numbers</h4>
                 <ul id="cards">
                 <li>5105105105105100</li>

@@ -117,13 +117,9 @@ $subscriptionInfo = $subscription->getMemberSubscription($user_id);
                 },
                 success: function(data) 
                 {
-                    
                     if(data.status){
                         $(".cancelSubscription").html('Subscription Cancelled.');
-                    }else{
-                        alert(data.msg);
                     }
-
                     location.reload(); 
                     
                 },
